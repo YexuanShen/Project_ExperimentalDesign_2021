@@ -1,6 +1,6 @@
 ---
 title: "STA305 Final Project: Will oven temperature, length of heating, and amount of milk affect the height of cupcakes?"
-author: "Yexuan Shen 1004960492"
+author: "Yexuan Shen"
 date: "15/04/2021"
 output: pdf_document
 ---
