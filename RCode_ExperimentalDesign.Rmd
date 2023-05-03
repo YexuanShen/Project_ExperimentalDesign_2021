@@ -1,0 +1,191 @@
+---
+title: "STA305 Final Project: Will oven temperature, length of heating, and amount of milk affect the height of cupcakes?"
+author: "Yexuan Shen 1004960492"
+date: "15/04/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## I.Description
+
+### Design, reasoning, and Process
+
+I am a dessert lover and I have over two years’ experience of baking. I plan to do a replicated $2^3$ factorial experiment to study whether oven temperature, length of heating, and amount of milk added will affect the height of cupcakes. Oven temperature, length of heating, and amount of milk are the 3 quantitative factors(predictors) studied in my experiment. Each factor will have two levels, which will be described in the following table. My experimental unit is cupcake. Response variable is height of cupcake in centimeters.
+
+| Factors | Level 1 (-1) | Level 2 (+1) 
+-----------|:-----------: |:-----------: |
+Oven Temperature | 150 Celsius| 165 Celsius |
+Length of Heating | 20 minutes | 30 minutes |
+Amount of Milk | 10 grams | 15 grams |
+
+In terms of the experiment process, I firstly conducted the experiment for 8 runs based on all the possible experimental conditions, and then replicated this 8 runs. In each run of the experiment, I made one cupcake and then measured its height after it cooled down, by using a ruler with min measurement of 0.1 cm. When measuring height of a cupcake, I considered height as the vertical distance in cm from the highest point of cupcake to bottom of the cupcake. I also controlled for other conditions which are not factors of my interest, such as using same cupcake size (with 5x5cm bottom and 4.6cm height), same oven, same tools to make cupcakes, egg from the same egg box, same 10 grams of unsalted butter, same 22 grams of sugar, and same 25 grams of cake flour. I completed the whole process in 4 days and got a total of 16 data points of cupcake height.
+
+### Data of the total 16 runs of experiment:
+
+| Run Number | Oven Temperature | Length of Heating | Amount of Milk | Height of Cupcake (cm)
+-----------|:-----------: |:-----------: |:-----------: |:-----------: |
+1 | +1 | +1 | +1 | 5.8 |
+2 | +1 | +1 | -1 | 5.7 |
+3 | +1 | -1 | +1 | 5.2 |
+4 | +1 | -1 | -1 | 4.9 |
+5 | -1 | +1 | +1 | 5.0 |
+6 | -1 | +1 | -1 | 4.9 |
+7 | -1 | -1 | +1 | 5.1 |
+8 | -1 | -1 | -1 | 4.7 |
+9 | +1 | +1 | +1 | 5.7 |
+10 | +1 | +1 | -1 | 5.6 |
+11 | +1 | -1 | +1 | 5.2 |
+12 | +1 | -1 | -1 | 5.1 |
+13 | -1 | +1 | +1 | 4.9 |
+14 | -1 | +1 | -1 | 4.8 |
+15 | -1 | -1 | +1 | 5.3 |
+16 | -1 | -1 | -1 | 4.8 |
+
+### What I hope to learn
+
+By doing this experiment, I hope to learn the application and practice of factorial design in real life, as well as what factors may affect cupcake height. The reason why I want to study cupcake height is that cupcake height is highly associated with its fluffy taste based on my baking experience and common sense. By finding an optimal result of cupcake with the biggest height, it could help me determine the most appropriate conditions of oven temperature, length of heating and amount of milk to reach the fluffiest taste.
+
+### A picture of experiment
+
+\begin{center}
+\includegraphics{305.pdf}
+\end{center}
+
+
+## II.Data Analysis
+
+### Data, model and summary
+
+```{r}
+oven_temp = c(1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1)
+length_heating = c(1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1)
+amount_milk = c(1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1)
+height_cupcake = c(5.8,5.7,5.2,4.9,5.0,4.9,5.1,4.7,5.7,5.6,5.2,5.1,4.9,4.8,5.3,4.8)
+cupcake_model = lm(height_cupcake~oven_temp*length_heating*amount_milk)
+summary(cupcake_model)
+```
+
+Model: ${height\_cupcake}_i=\beta_{0}+\beta_{1}*oven\_temp_{i}+\beta_{2}*length\_heating_{i}+\beta_{3}*amount\_milk_{i}+\beta_{4}*oven\_temp_{i}*length\_heating_{i}+\beta_{5}*oven\_temp_{i}*amount\_milk_{i}+\beta_{6}*length\_heating_{i}*amount\_milk_{i}+\beta_{7}*oven\_temp_{i}*length\_heating_{i}*amount\_milk_{i}+\epsilon_{i}$
+
+Interpretation: i represents the run number, which is an integer ranging from 1 to 16. Each $\beta$ represents half of the effect value of its attached term. For example, $\beta_{1}$ represents the half of the main effect of oven_temp on height_cupcake; $\beta_{5}$ represents half of the interaction effect of oven_temp and amount_milk on height_cupcake. 
+
+Null hypotheses: \
+1.$H_0: \beta_1=0.$ There is no effect of oven temperature on height of cupcake.\
+2.$H_0: \beta_2=0.$ There is no effect of length of heating on height of cupcake.\
+3.$H_0: \beta_3=0.$ There is no effect of amount of milk on height of cupcake.\
+4.$H_0: \beta_4=0.$ There is no interaction effect of oven temperature and length of heating on height of cupcake.\
+5.$H_0: \beta_5=0.$ There is no interaction effect of oven temperature and amount of milk on height of cupcake.\
+6.$H_0: \beta_6=0.$ There is no interaction effect of length of heating and amount of milk on height of cupcake.\
+7.$H_0: \beta_7=0.$ There is no interaction effect of oven temperature, length of heating and amount of milk on height of cupcake.
+
+
+\newpage
+
+### Main Effects and interaction effects
+
+Since two factor levels of each factor are represented by +1 and -1, the main effects and interaction effects should be two times of the estimates in the linear model summary above.
+
+To present these calculated effects in a table:
+
+| Factor | Effect 
+-----------|:-----------: |
+oven_temp | 0.4625 |
+length_heating | 0.2625 |
+amount_milk | 0.2125 |
+oven_temp:length_heating | 0.3375 |
+oven_temp:amount_milk | -0.0625 |
+length_heating:amount_milk | -0.1125 |
+oven_temp:length_heating:amount_milk | 0.0625 |
+
+
+### Interpretation of main Effects and interaction effects
+
+Seen from the model summary, p-values for estimates of oven_temp, length_heating, amount_milk, interaction of oven_temp:length_heating, interaction of length_heating:amount_milk are smaller than 0.05 (significant). Also looking at the values of estimates, we can draw the following conclusions (what null hypotheses to reject):
+
+1.There is strong evidence to reject the first null hypothesis that there is no effect of oven temperature on height of cupcake. We support that there is effect of oven temperature on height of cupcake. Holding other factors the same, changing oven temperature from Level1(-1)(150 Celsius) to Level2(+1)(165 Celsius) will increase the cupcake height by 0.4625 cm.\
+2. There is strong evidence to reject the second null hypothesis that there is no effect of length of heating on height of cupcake. We support that there is effect of length of heating on height of cupcake. Holding other factors the same, changing length of heating from Level1(-1)(20 minutes) to Level2(+1)(30 minutes) will increase the cupcake height by 0.2625 cm.\
+3. There is strong evidence to reject the third null hypothesis that there is no effect of amount of milk on height of cupcake. We support that there is effect of amount of milk on height of cupcake. Holding other factors the same, changing amount of milk from Level1(-1)(10 grams) to Level2(+1)(15 grams) will increase the cupcake height by 0.2125 cm.\
+4. There is strong evidence to reject the fourth null hypothesis that there is no interaction effect of oven temperature and length of heating on height of cupcake. We support that there is interaction effect of oven temperature and length of heating on height of cupcake.Holding other factors the same, changing the multiplied value of levels of oven temperature and length of heating from -1 to +1 will increase the height of cupcake by 0.3375 cm.\
+5. There is weak evidence to reject the sixth null hypothesis that there is no interaction effect of length of heating and amount of milk on height of cupcake. (This p-value 0.037164 is not that small like previous ones, but it is still smaller than 0.05. Thus there is just weak evidence.) We support that there is interaction effect of length of heating and amount of milk on height of cupcake. Holding other factors the same, changing the multiplied value of levels of length of heating and amount of milk from -1 to +1 will decrease the height of cupcake by 0.1125 cm.
+
+However, p-values for estimates of interaction of oven_temp:amount_milk, interaction of oven_temp:length_heating:amount_milk are bigger than 0.05 (not significant). Therefore, there is no evidence to reject the fifth and seventh null hypothesis. In other words, there is no interaction effect of oven temperature:amount of milk, and there is no interaction effect of oven_temp:length_heating:amount_milk.
+
+\newpage
+
+### Visualization: Cube Plot and Interaction Plot
+
+Firstly, I plotted a cube plot below to visualize the relationship between three factors and the response.
+
+```{r message=FALSE}
+#install.packages("FrF2")
+library("FrF2")
+
+cubePlot(cupcake_model, "oven_temp","length_heating", "amount_milk", 
+         main="Cube Plot for Cupcake Height")
+```
+Each main effect can also be calculated from this cube plot. For example, we can calculate from the cube plot the main effect of oven_temp on height_cupcake by (5.2+5.75+5.65+5)/4 - (5.2+4.95+4.85+4.75)/4 = 0.4625.\
+
+
+Then, I plotted 3 interaction plots to visualize if there are interaction effects of oven_temp:length_heating, oven_temp:amount_milk, length_heating:amount_milk.
+
+```{r}
+interaction.plot(oven_temp, length_heating, height_cupcake, type="l", xlab="Oven temperature", 
+                 trace.label="Length of heating", ylab="Height of Cupcake")
+interaction.plot(oven_temp, amount_milk, height_cupcake, type="l", xlab="Oven temperature", 
+                 trace.label="Amount of milk", ylab="Height of Cupcake")
+interaction.plot(length_heating, amount_milk, height_cupcake, type="l", xlab="Length of heating", 
+                 trace.label="Amount of milk", ylab="Height of Cupcake")
+```
+According to the interaction plots above, the first interaction plot of oven temperature and length of heating has a cross point, so we can tell that there exists interaction effect of oven_temp:length_heating. \
+The second interaction plot of oven temperature and amount of milk has approximately parallel lines, so there is not interaction effect of oven_temp:amount_milk.\
+The third interaction plot of length of heating and amount of milk has nonparallel lines but without a cross point, so there may only exist weak evidence of interaction effect of length_heating:amount_milk.\
+
+
+
+### Estimated variance
+According to the model summary, the standard error of each effect is 0.02253*2=0.04506. So $s^2=0.04506^2=0.0020304$.\
+Therefore, the estimated variance of an effect is calculated by $(1/8+1/8)*s^2=s^2/4=0.0005076$.
+
+
+
+### 95% Confidence Intervals 
+
+```{r}
+2*confint(cupcake_model)
+```
+
+From 95% CIs above, the CIs that do not include 0 are: oven_temp (0.3585698, 0.566430202), length_heating (0.1585698, 0.366430202), amount_milk (0.1085698, 0.316430202), oven_temp:length_heating (0.2335698, 0.441430202), length_heating:amount_milk (-0.2164302, -0.008569798). These CIs not including 0 provide evidence that there is effect of oven temperature, length of heating, amount of milk, interaction of oven temperature and length of heating, interaction of length of heating and amount of milk on height of cupcake.
+
+The CIs including 0 are: oven_temp:amount_milk (-0.1664302, 0.041430202), oven_temp:length_heating:amount_milk (-0.0414302, 0.166430202). These two CIs including 0 indicate that there is no evidence of interaction effect of oven temperature and amount of milk, and interaction effect of all three factors. \
+
+
+
+## III.Conclusions
+
+In conclusion, I conducted a replicated $2^3$ factorial design, which studies whether oven temperature, length of heating and amount of milk have an effect on height of cupcake.
+
+Based on my data analysis above, oven temperature, length of heating and amount of milk are all significant factors that can positively affect height of cupcake. All these three factors have positive main effects on height of cupcake. Also, there exists a positive interaction effect of oven temperature and length of heating, and a small negative interaction effect of length of heating and amount of milk. However, there is only a weak evidence of this negative interaction effect.\
+As a result, the optimal result will be when the experimental conditions are that all three factors are at Level2(+1), respectively 165 Celsius, 30 minutes, and 15 grams.
+
+
+
+
+
+## IV:Discussion and Limitations
+
+Since it is a special period and limited time, there exist some limitations and ways of improvement to my homemade experiment:
+
+1. Handmade cupcakes can result in bias. For example, I could not control my hand strength to be the same at each time of making cupcake, which may result in bias. If there is a machine to do the most process of making cupcakes, bias will be reduced.
+
+2. Measurement error or measurement bias. I only have the ruler with minimum measurement of 0.1 cm, so it was not that accurate and possible to cause bias. To improve further study, I may go to buy a ruler with smaller minimum measurement like 0.01cm or 0.001cm. Also, measurement of cupcake height will be more accurate if I have a measuring machine.
+
+3. Sample size too small. I only replicated the whole experiment for once. If I have more time, I may replicate it for more and more times to improve my experiment.
+
+4. Every egg even though in the same egg box could be different than each other. This can also bring a little bias. It is hard to make sure eggs are the same each time when I make cupcakes, but I can possibly improve my experiment by controlling the weight of each egg the same.
+
+
+
+
